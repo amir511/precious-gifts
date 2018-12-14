@@ -24,3 +24,11 @@ body{
 nav ul li{
     margin-right: 15px;
 }
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: rgb(51, 49, 49);
+    color: white;
+}
