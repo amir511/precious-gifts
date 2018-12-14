@@ -21,3 +21,6 @@ body{
     float: left;
     width: 20%;
 }
+nav ul li{
+    margin-right: 15px;
+}

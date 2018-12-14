@@ -14,12 +14,21 @@
     </head>
     <body>
         {% cms_toolbar %}
-        <div class="container">
-            <ul class="nav">
+        {# NavBar #}
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">Precious Gifts</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
                 {% show_menu 0 100 100 100 %}
-            </ul>
+                </ul>
+            </div>
+        </nav>           
             {% block content %}{% endblock content %}
-        </div>
         {% render_block "js" %}
         {# Bootstrap Js #}
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
