@@ -15,6 +15,7 @@ admin.autodiscover()
 urlpatterns = [
     url(r'^sitemap\.xml$', sitemap,
         {'sitemaps': {'cmspages': CMSSitemap}}),
+    url(r'^store/', include('precious_gifts.apps.store.urls'), name='store'),
 ]
 
 urlpatterns += i18n_patterns(
