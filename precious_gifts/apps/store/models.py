@@ -1,13 +1,14 @@
 from django.db import models
-from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import User
+from djangocms_text_ckeditor.fields import HTMLField
+from django.core.exceptions import ObjectDoesNotExist
 from random import randint
 from datetime import datetime, timedelta
 
 
 class Product(models.Model):
     name = models.CharField(max_length=255, blank=False, null=False, unique=True)
-    description = models.TextField(blank=True, null=True)
+    description = HTMLField(blank=True, null=True)
     price = models.FloatField(blank=False, null=False)
     image = models.ImageField(blank=True, null=True)
     remaining_stock = models.PositiveIntegerField(default=0)
