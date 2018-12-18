@@ -131,3 +131,20 @@ class StoreAppTest(TestCase):
             self.c2.create_order()
         self.assertNotEqual(self.c2.items.all().count(), 0)
 
+    def test_create_order_with_empty_cart(self):
+        with self.assertRaisesMessage(Exception, 'Cart is empty!!'):
+            # Create order
+            self.c1.create_order()
+
+    def test_refused_message_includes_all_items(self):
+        self.c1.add_item(self.p1, 2)
+        self.c1.add_item(self.p2, 3)
+        self.c1.add_item(self.p3, 1)
+        self.c2.add_item(self.p1, 2)
+        self.c2.add_item(self.p2, 3)
+        self.c2.add_item(self.p3, 1)
+        self.c1.create_order()
+        with self.assertRaisesMessage(Exception, 'Product(s) "p1,p2,p3" are not available with the requested quantity'):
+            # Create order
+            self.c2.create_order()
+        
