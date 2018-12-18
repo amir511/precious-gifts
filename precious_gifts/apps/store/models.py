@@ -61,7 +61,7 @@ class Cart(models.Model):
             message = '''Product(s) "{}" are not available with the requested quantity
                         Someone might already have ordered them just now!
                         Please refresh your browser and try ordering again'''.format(
-                *refused_items
+                ','.join(refused_items)
             )
             return message
         return None
@@ -99,7 +99,7 @@ class Order(models.Model):
     status = models.CharField(max_length=50, choices=ORDER_STATUS_CHOICES, default='Under Preparation')
     expected_delivery_date = models.DateField(editable=False, null=True)
 
-    def save(self):
+    def save(self, *args, **kwargs):
         # Automatically generating order_id on creation
         if not self.order_id:
             timestamp = str(datetime.now().timestamp()).replace('.', '')
@@ -115,7 +115,7 @@ class Order(models.Model):
             item.product.remaining_stock -= item.quantity
             item.product.save()
 
-        super().save()
+        super().save(*args, **kwargs)
 
     def change_status(self, new_status):
         if new_status == 'Cancelled':
