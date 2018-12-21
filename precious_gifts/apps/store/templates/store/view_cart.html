@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+<div class="container">
+    <!-- displaying messages if there is any: -->
+    {% if messages %}
+        <div class="row mt-4">
+            {% for message in messages %}
+                <div class="col-lg-3"></div>
+                    {% if message.level == 25 %}
+                        <div class="alert alert-dismissible alert-success col-lg-6 col-md-12">
+                            {{ message }}
+                        </div>
+                    {% elif message.level == 40 %} 
+                        <div class="alert alert-dismissible alert-danger col-lg-6 col-md-12">
+                            {{ message }}
+                        </div>
+                    {% endif %}
+                <div class="col-lg-3"></div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <!-- end of messages snippet -->
+    <div class="row mt-4">
+        {% if not cart.items.all.count %}
+        <div class="col-12 text-center">
+            <h1>Your Cart is currently empty!</h1>
+            <a href="{% url 'store:product_list' %}" class="btn btn-primary">Continue Shopping!</a>
+        </div>
+        {% else %}
+            {% for item in cart.items.all %}
+            <div class="col-12">
+                    <div class="card" >
+                        <img class="card-img-top" {% if item.product.image %} src="{{ item.product.image.url }}" {% else %} src="{% static 'img/NA.png' %}" {% endif %} alt="Product Image">
+                        
+                            <div class="card-body">
+                                <h5 class="card-title">{{ item.product.name }}</h5>
+                                <p class="card-text">{{ item.product.description }}</p>
+                                <h5 class="card-text">Unit Price: {{ item.product.price }} EGP</h5>
+                                <h5 class="card-text">Quantity: {{ item.quantity }}</h5>
+                                <a href={% url  'store:product_detail' pk=item.product.pk %} class="btn btn-primary">Product details</a>
+                                <a href={% url  'store:remove_from_cart' product_pk=item.product.pk %} class="btn btn-primary">Remove from cart</a>
+                            </div>
+                        </div>
+            </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+
+{% endblock content %}
