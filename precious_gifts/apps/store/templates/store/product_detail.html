@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+        <div class="col-12">
+                <div class="card" >
+                    <img class="card-img-top" {% if product.image %} src="{{ product.image.url }}" {% else %} src="{% static 'img/NA.png' %}" {% endif %} alt="Product Image">
+                    
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text">{{ product.description }}</p>
+                            <h5 class="card-text">{{ product.price }} EGP</h5>
+                            <a href="#" class="btn btn-primary">Add to cart!</a>
+                            <a href="{% url 'store:product_list' %}" class="btn btn-primary">Continue Shopping!</a>
+                        </div>
+                      </div>
+        </div>
+{% endblock content %}

@@ -13,7 +13,7 @@
                             <h5 class="card-title">{{ product.name }}</h5>
                             <p class="card-text">{{ product.description }}</p>
                             <h5 class="card-text">{{ product.price }} EGP</h5>
-                            <a href="#" class="btn btn-primary">Add to cart</a>
+                            <a href={% url  'store:product_detail' pk=product.pk %} class="btn btn-primary">Learn More!</a>
                         </div>
                       </div>
         </div>
