@@ -48,8 +48,9 @@
                         </div>
             </div>
             {% endfor %}
-            <div class="row">
-                <a href={% url  'store:checkout' %} class="btn btn-primary">Checkout</a>
+            <div class="mt-3">
+                    <h2>Total amount = {{ cart.total_price }} L.E.</h2>
+                    <a href={% url  'store:checkout' %} class="btn btn-primary">Checkout</a>
             </div>
         {% endif %}
     </div>

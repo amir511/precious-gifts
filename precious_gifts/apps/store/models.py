@@ -82,6 +82,14 @@ class Cart(models.Model):
 
         return order
 
+    @property
+    def total_price(self):
+        price = 0
+        for item in self.items.all():
+            price += item.price
+
+        return price
+
     def __str__(self):
         return 'Cart:' + str(self.user)
 
@@ -125,6 +133,14 @@ class Order(models.Model):
                 item.delete()
         self.status = new_status
 
+    @property
+    def total_price(self):
+        price = 0
+        for item in self.items.all():
+            price += item.price
+
+        return price
+
     def __str__(self):
         return str(self.user) + ':' + self.order_id + ':' + self.status
 
@@ -134,6 +150,10 @@ class CartItem(models.Model):
     order_id = models.ForeignKey(Order, on_delete=models.CASCADE, blank=True, null=True, related_name='items')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='in_items')
     quantity = models.PositiveIntegerField()
+
+    @property
+    def price(self):
+        return self.product.price * self.quantity
 
     def __str__(self):
         return str(self.product) + ':' + str(self.quantity)
