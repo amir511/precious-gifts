@@ -5,6 +5,7 @@ from django.views.generic import ListView, DetailView
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from precious_gifts.apps.store.models import Product, Cart, Order
+from precious_gifts.apps.store.forms import IncreaseQtyForm
 
 
 class ProductList(ListView):
@@ -24,8 +25,23 @@ def view_cart(request):
     except ObjectDoesNotExist:
         cart = Cart(user=request.user)
         cart.save()
-
-    return render(request, 'store/view_cart.html', {'cart': cart})
+    if request.method == 'POST':
+        form = IncreaseQtyForm(request.POST)
+        if form.is_valid():
+            new_quantity = form.cleaned_data['new_quantity']
+            item_pk = form.cleaned_data['item_pk']
+            item = cart.items.get(pk=item_pk)
+            if item.product.remaining_stock < new_quantity:
+                messages.error(request, "Quantity is bigger than the available stock!")
+            else:
+                item.quantity = new_quantity
+                item.save()
+                messages.success(request, "Quantity updated successfully!")
+        else:
+            messages.error(request, "Quantity couldn't be updated!")
+    form = IncreaseQtyForm()
+    context = {'cart': cart, 'form':form}
+    return render(request, 'store/view_cart.html', context=context)
 
 
 @login_required

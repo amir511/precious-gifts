@@ -42,6 +42,18 @@
                                 <p class="card-text">{{ item.product.description }}</p>
                                 <h5 class="card-text">Unit Price: {{ item.product.price }} EGP</h5>
                                 <h5 class="card-text">Quantity: {{ item.quantity }}</h5>
+                                <form action="" method="post">
+                                    {% csrf_token %}
+                                    {% for field in form %}
+                                    {% if not field.name == "item_pk" %}
+                                        {{ field.label }}:
+                                        {{ field }}
+                                    {% else %}
+                                        <input type="hidden" name="item_pk" value={{ item.pk }}>
+                                    {% endif %}
+                                    {% endfor %}
+                                    <input type="submit" value="Change">
+                                </form>
                                 <a href={% url  'store:product_detail' pk=item.product.pk %} class="btn btn-primary">Product details</a>
                                 <a href={% url  'store:remove_from_cart' product_pk=item.product.pk %} class="btn btn-primary">Remove from cart</a>
                             </div>
