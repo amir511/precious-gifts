@@ -2,17 +2,20 @@ from django.shortcuts import render, redirect
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import messages
 from django.views.generic import ListView, DetailView
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
-from precious_gifts.apps.store.models import Product, Cart
+from django.http import HttpResponseForbidden
+from precious_gifts.apps.store.models import Product, Cart, Order
+
 
 class ProductList(ListView):
     model = Product
     context_object_name = 'products'
 
+
 class ProductDetail(DetailView):
     model = Product
     context_object_name = 'product'
+
 
 @login_required
 def view_cart(request):
@@ -22,15 +25,16 @@ def view_cart(request):
         cart = Cart(user=request.user)
         cart.save()
 
-    return render(request, 'store/view_cart.html', {'cart':cart})
-    
+    return render(request, 'store/view_cart.html', {'cart': cart})
+
+
 @login_required
 def add_to_cart(request, product_pk, quantity):
     try:
         cart = request.user.cart
     except ObjectDoesNotExist:
         cart = Cart(user=request.user)
-    
+
     product = Product.objects.get(pk=product_pk)
     try:
         cart.add_item(product, int(quantity))
@@ -40,13 +44,41 @@ def add_to_cart(request, product_pk, quantity):
 
     return redirect('store:view_cart')
 
+
 @login_required
 def remove_from_cart(request, product_pk):
-    
+
     cart = request.user.cart
     product = Product.objects.get(pk=product_pk)
     cart.remove_item(product)
     cart.save()
 
     return redirect('store:view_cart')
+
+
+@login_required
+def checkout(request):
+
+    cart = request.user.cart
+    try:
+        order = cart.create_order()
+    except Exception as e:
+        messages.error(request, e)
+        return redirect('store:view_cart')
+    return redirect('store:order_detail', pk=order.pk)
+
+
+@login_required
+def order_list(request):
+
+    orders = Order.objects.filter(user=request.user).order_by('-id')
+    return render(request, 'store/order_list.html', {'orders': orders})
+
+
+@login_required
+def order_detail(request, pk):
+    order = Order.objects.get(pk=pk)
+    if order.user != request.user:
+        return HttpResponseForbidden("<h1>Access Denied! </h1>")
+    return render(request, 'store/order_detail.html', {'order': order})
 

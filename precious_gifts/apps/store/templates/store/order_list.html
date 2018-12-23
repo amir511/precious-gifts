@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <h1>Your Orders:</h1>
+    </div>
+    {% for order in orders %}
+    <div class="row mt-4">
+
+            <div class="col-12">
+                    <div class="card" >
+                            <div class="card-body">
+                                    <h5><a href={% url  'store:order_detail' pk=order.pk %}>Order Number: {{ order.order_id }}</a></h5>
+                                    <h5>Order Status: {{ order.status }}</h5>
+                            </div>
+                        </div>
+            </div>
+    </div>
+    {% endfor %}
+
+</div>
+
+{% endblock content %}

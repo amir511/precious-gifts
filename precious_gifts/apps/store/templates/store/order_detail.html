@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+<div class="container">
+        <h3>Order Number: {{ order.order_id }}</h3>
+        <h3>Order Status: {{ order.status }}</h3>
+        <h3>Items in the Order:</h3>
+    {% for item in order.items.all %}
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card" >
+                <div class="card-body">
+                    <a href={% url  'store:product_detail' pk=item.product.pk %} class="card-title">{{ item.product.name }}</a>
+                    <h5 class="card-text">Unit Price: {{ item.product.price }} EGP</h5>
+                    <h5 class="card-text">Quantity: {{ item.quantity }}</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock content %}
