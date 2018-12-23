@@ -41,6 +41,8 @@
     {% if order.status != 'Cancelled' %}
         <div class="mt-3">
                 <h2>Total amount = {{ order.total_price }} L.E.</h2>
+                <h2>Estimated delivery date = {{ order.expected_delivery_date }}</h2>
+
                 <a href={% url  'store:cancel_order' pk=order.pk %} class="btn btn-primary">Cancel Order</a>
         </div>
     {% endif %}
