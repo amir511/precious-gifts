@@ -6,6 +6,7 @@
     <div class="row">
         <h1>Your Orders:</h1>
     </div>
+    {% if orders %}
     {% for order in orders %}
     <div class="row mt-4">
 
@@ -19,6 +20,9 @@
             </div>
     </div>
     {% endfor %}
+    {% else %}      
+    <h2>You don't have any orders yet!</h2>
+    {% endif %}
 
 </div>
 
