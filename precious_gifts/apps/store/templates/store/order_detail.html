@@ -3,6 +3,25 @@
 
 {% block content %}
 <div class="container">
+        <!-- displaying messages if there is any: -->
+        {% if messages %}
+        <div class="row mt-4">
+            {% for message in messages %}
+                <div class="col-lg-3"></div>
+                    {% if message.level == 25 %}
+                        <div class="alert alert-dismissible alert-success col-lg-6 col-md-12">
+                            {{ message }}
+                        </div>
+                    {% elif message.level == 40 %} 
+                        <div class="alert alert-dismissible alert-danger col-lg-6 col-md-12">
+                            {{ message }}
+                        </div>
+                    {% endif %}
+                <div class="col-lg-3"></div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <!-- end of messages snippet -->
         <h3>Order Number: {{ order.order_id }}</h3>
         <h3>Order Status: {{ order.status }}</h3>
         <h3>Items in the Order:</h3>
@@ -19,6 +38,11 @@
         </div>
     </div>
     {% endfor %}
+    {% if order.status != 'Cancelled' %}
+        <div class="row mt-3">
+                <a href={% url  'store:cancel_order' pk=order.pk %} class="btn btn-primary">Cancel Order</a>
+        </div>
+    {% endif %}
 </div>
 
 {% endblock content %}
