@@ -24,7 +24,9 @@
     <!-- end of messages snippet -->
         <h3>Order Number: {{ order.order_id }}</h3>
         <h3>Order Status: {{ order.status }}</h3>
+        {% if not order.status == 'Cancelled' %}
         <h3>Items in the Order:</h3>
+        {% endif %}
     {% for item in order.items.all %}
     <div class="row mt-4">
         <div class="col-12">
