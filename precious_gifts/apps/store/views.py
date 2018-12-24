@@ -5,7 +5,7 @@ from django.views.generic import DetailView
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from precious_gifts.apps.store.models import Product, Cart, Order
-from precious_gifts.apps.store.forms import IncreaseQtyForm
+from precious_gifts.apps.store.forms import ChangeQtyForm
 
 
 
@@ -27,7 +27,7 @@ def view_cart(request):
         cart = Cart(user=request.user)
         cart.save()
     if request.method == 'POST':
-        form = IncreaseQtyForm(request.POST)
+        form = ChangeQtyForm(request.POST)
         if form.is_valid():
             new_quantity = form.cleaned_data['new_quantity']
             item_pk = form.cleaned_data['item_pk']
@@ -40,7 +40,7 @@ def view_cart(request):
                 messages.success(request, "Quantity updated successfully!")
         else:
             messages.error(request, "Quantity couldn't be updated!")
-    form = IncreaseQtyForm()
+    form = ChangeQtyForm()
     context = {'cart': cart, 'form':form}
     return render(request, 'store/view_cart.html', context=context)
 
