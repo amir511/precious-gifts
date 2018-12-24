@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import messages
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import DetailView
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
@@ -16,7 +17,18 @@ class ProductDetail(DetailView):
 
 
 def product_list(request):
-    products = Product.objects.all()
+    product_list = Product.objects.all()
+    product_paginator = Paginator(product_list, 12)
+    page = request.GET.get('page')
+    try:
+        products = product_paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        products = product_paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        products = product_paginator.page(product_paginator.num_pages)
+
     return render(request, 'store/product_list.html', {'products':products})
 
 @login_required
