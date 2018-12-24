@@ -43,3 +43,14 @@ footer {
     max-height: 250px;
     min-height: 250px;
 }
+
+.card {
+    border-radius: 0em;
+    -webkit-box-shadow: 10px 15px 26px -11px rgba(177,199,201,1);
+    -moz-box-shadow: 10px 15px 26px -11px rgba(177,199,201,1);
+    box-shadow: 10px 15px 26px -11px rgba(177,199,201,1);
+}
+
+.btn {
+    border-radius: 0em;
+}
