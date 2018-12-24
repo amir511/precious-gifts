@@ -33,7 +33,13 @@ footer {
     color: white;
 }
 
-.product-image {
+.card-product-image {
+    max-height: 250px;
+    min-height: 250px;
+}
+
+.detail-product-image {
+    max-width:250px;
     max-height: 250px;
     min-height: 250px;
 }
