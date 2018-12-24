@@ -32,3 +32,8 @@ footer {
     background-color: rgb(51, 49, 49);
     color: white;
 }
+
+.product-image {
+    max-height: 250px;
+    min-height: 250px;
+}
