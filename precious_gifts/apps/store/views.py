@@ -1,22 +1,23 @@
 from django.shortcuts import render, redirect
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import messages
-from django.views.generic import ListView, DetailView
+from django.views.generic import DetailView
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from precious_gifts.apps.store.models import Product, Cart, Order
 from precious_gifts.apps.store.forms import IncreaseQtyForm
 
 
-class ProductList(ListView):
-    model = Product
-    context_object_name = 'products'
 
 
 class ProductDetail(DetailView):
     model = Product
     context_object_name = 'product'
 
+
+def product_list(request):
+    products = Product.objects.all()
+    return render(request, 'store/product_list.html', {'products':products})
 
 @login_required
 def view_cart(request):
