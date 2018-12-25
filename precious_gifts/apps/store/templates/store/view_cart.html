@@ -34,7 +34,7 @@
         </div>
         {% else %}
             {% for item in cart.items.all %}
-                    <div class="card col-12 mb-3" >
+                    <div class="card card-shadow col-12 mb-3" >
                         <div class="container">
                             <div class="row">
                         <img class="col-md-12 col-lg-4 card-img-top detail-product-image mt-3 ml-3" {% if item.product.image %} src="{{ item.product.image.url }}" {% else %} src="{% static 'img/NA.png' %}" {% endif %} alt="Product Image">

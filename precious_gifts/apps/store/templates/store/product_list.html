@@ -6,7 +6,7 @@
     <div class="row mt-4">
         {% for product in products %}
         <div class="col-12 col-m-6 col-lg-4 mb-5">
-                <div class="card h-100" >
+                <div class="card card-shadow h-100" >
                     <img class="card-img-top card-product-image" {% if product.image %} src="{{ product.image.url }}" {% else %} src="{% static 'img/NA.png' %}" {% endif %} alt="Product Image">
                         <div class="card-body">
                                 <h5 class="card-title">{{ product.name }}</h5>

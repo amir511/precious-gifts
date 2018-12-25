@@ -44,10 +44,13 @@ footer {
     min-height: 250px;
 }
 
-.card {
+.card-shadow {
     border: none;
-    border-radius: 0em;
     box-shadow: 1.5px 1.5px 5px 0.5px rgba(168,168,168,0.57);
+}
+
+.card {
+    border-radius: 0em;
 }
 
 .btn {
