@@ -155,6 +155,8 @@ INSTALLED_APPS = (
     'djangocms_bootstrap4.contrib.bootstrap4_tabs',
     'djangocms_bootstrap4.contrib.bootstrap4_utilities',
 
+    'bootstrap4',
+
     'precious_gifts',
     'precious_gifts.apps.store',
 )
