@@ -3,26 +3,28 @@
 
 {% block content %}
 <div class="container">
-    <div class="row">
-        <h1>Your Orders:</h1>
-    </div>
-    {% if orders %}
-    {% for order in orders %}
-    <div class="row mt-4">
-
-            <div class="col-12">
-                    <div class="card" >
-                            <div class="card-body">
-                                    <h5><a href={% url  'store:order_detail' pk=order.pk %}>Order Number: {{ order.order_id }}</a></h5>
-                                    <h5>Order Status: {{ order.status }}</h5>
-                            </div>
+<div class="card card-shadow p-5 my-3">
+        <div class="row">
+                <h3>Your Orders:</h3>
+        </div>
+        {% if orders %}
+        {% for order in orders %}
+        <div class="row mt-4">
+                
+                <div class="col-12">
+                        <div class="card" >
+                                <div class="card-body">
+                                        <h5><a href={% url  'store:order_detail' pk=order.pk %}>Order Number: {{ order.order_id }}</a></h5>
+                                        <h5>Order Status: {{ order.status }}</h5>
+                                </div>
                         </div>
-            </div>
-    </div>
-    {% endfor %}
-    {% else %}      
-    <h2>You don't have any orders yet!</h2>
-    {% endif %}
+                </div>
+        </div>
+        {% endfor %}
+        {% else %}      
+        <h2>You don't have any orders yet!</h2>
+        {% endif %}
+</div>
 
 </div>
 
