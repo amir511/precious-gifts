@@ -22,19 +22,22 @@
         </div>
     {% endif %}
     <!-- end of messages snippet -->
-        <h3>Order Number: {{ order.order_id }}</h3>
-        <h3>Order Status: {{ order.status }}</h3>
+    <div class="card card-shadow p-5 my-3">
+
+        <pre>Order Number: {{ order.order_id }}</pre>
+        <hr>
+        <pre>Order Status: {{ order.status }}</pre>
         {% if not order.status == 'Cancelled' %}
-        <h3>Items in the Order:</h3>
+        <pre>Items in the Order:</pre>
         {% endif %}
     {% for item in order.items.all %}
     <div class="row mt-4">
         <div class="col-12">
             <div class="card" >
                 <div class="card-body">
-                    <a href={% url  'store:product_detail' pk=item.product.pk %} class="card-title">{{ item.product.name }}</a>
-                    <h5 class="card-text">Unit Price: {{ item.product.price }} EGP</h5>
-                    <h5 class="card-text">Quantity: {{ item.quantity }}</h5>
+                    <pre><a href={% url  'store:product_detail' pk=item.product.pk %} class="card-title">{{ item.product.name }}</a></pre>
+                    <pre class="card-text">Unit Price: {{ item.product.price }} EGP</pre>
+                    <pre class="card-text">Quantity: {{ item.quantity }}</pre>
                 </div>
             </div>
         </div>
@@ -42,12 +45,12 @@
     {% endfor %}
     {% if order.status != 'Cancelled' %}
         <div class="mt-3">
-                <h2>Total amount = {{ order.total_price }} L.E.</h2>
-                <h2>Estimated delivery date = {{ order.expected_delivery_date }}</h2>
+                <pre>Total amount = {{ order.total_price }} L.E.</pre>
+                <pre>Estimated delivery date = {{ order.expected_delivery_date }}</pre>
 
-                <a href={% url  'store:cancel_order' pk=order.pk %} class="btn btn-primary">Cancel Order</a>
+                <pre><a href={% url  'store:cancel_order' pk=order.pk %} class="btn btn-primary">Cancel Order</a></pre>
         </div>
     {% endif %}
 </div>
-
+</div>
 {% endblock content %}
