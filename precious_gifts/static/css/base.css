@@ -45,10 +45,9 @@ footer {
 }
 
 .card {
+    border: none;
     border-radius: 0em;
-    -webkit-box-shadow: 10px 15px 26px -11px rgba(177,199,201,1);
-    -moz-box-shadow: 10px 15px 26px -11px rgba(177,199,201,1);
-    box-shadow: 10px 15px 26px -11px rgba(177,199,201,1);
+    box-shadow: 1.5px 1.5px 5px 0.5px rgba(168,168,168,0.57);
 }
 
 .btn {
