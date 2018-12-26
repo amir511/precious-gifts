@@ -62,6 +62,7 @@ def add_to_cart(request, product_pk, quantity):
         cart = request.user.cart
     except ObjectDoesNotExist:
         cart = Cart(user=request.user)
+        cart.save()
 
     product = Product.objects.get(pk=product_pk)
     try:
