@@ -147,4 +147,3 @@ class StoreAppTest(TestCase):
         with self.assertRaisesMessage(Exception, 'Product(s) "p1,p2,p3" are not available with the requested quantity'):
             # Create order
             self.c2.create_order()
-        

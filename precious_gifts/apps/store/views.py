@@ -9,8 +9,6 @@ from precious_gifts.apps.store.models import Product, Cart, Order
 from precious_gifts.apps.store.forms import ChangeQtyForm
 
 
-
-
 class ProductDetail(DetailView):
     model = Product
     context_object_name = 'product'
@@ -29,7 +27,8 @@ def product_list(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         products = product_paginator.page(product_paginator.num_pages)
 
-    return render(request, 'store/product_list.html', {'products':products})
+    return render(request, 'store/product_list.html', {'products': products})
+
 
 @login_required
 def view_cart(request):
@@ -53,7 +52,7 @@ def view_cart(request):
         else:
             messages.error(request, "Quantity couldn't be updated!")
     form = ChangeQtyForm()
-    context = {'cart': cart, 'form':form}
+    context = {'cart': cart, 'form': form}
     return render(request, 'store/view_cart.html', context=context)
 
 
