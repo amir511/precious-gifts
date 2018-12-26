@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
+from filer.fields.image import FilerImageField
 from random import randint
 from datetime import datetime, timedelta
 
@@ -9,7 +10,7 @@ class Product(models.Model):
     name = models.CharField(max_length=255, blank=False, null=False, unique=True)
     description = models.TextField(blank=True, null=True)
     price = models.FloatField(blank=False, null=False)
-    image = models.ImageField(blank=True, null=True)
+    image = FilerImageField(blank=True, null=True)
     remaining_stock = models.PositiveIntegerField(default=0)
     delivery_period = models.PositiveIntegerField(help_text='Delivery period in days', blank=False, null=False)
     # TODO: Add User reviews and User ratings
