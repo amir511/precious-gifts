@@ -203,6 +203,8 @@ CMS_PERMISSION = True
 
 CMS_PLACEHOLDER_CONF = {}
 
+# createuser --createdb --pwprompt preciousdev
+# createdb -U preciousdev -W -h localhost precious
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
