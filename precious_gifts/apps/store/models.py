@@ -103,9 +103,36 @@ class Order(models.Model):
     )
 
     order_id = models.CharField(max_length=255, unique=True, editable=False, null=True)
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='orders', null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='orders', editable=False, null=True)
+    order_summary = models.TextField()
     status = models.CharField(max_length=50, choices=ORDER_STATUS_CHOICES, default='Under Preparation')
     expected_delivery_date = models.DateField(editable=False, null=True)
+
+
+    def __generate_order_summary(self):
+        SUMMARY_TEMPLATE = """
+        Order summary:
+        ==============
+        Order id: {order_id}
+        User name: {username}
+        User email: {user_email}
+        Extected delivery date: {delivery_date}
+        Items:
+        {items}
+        """
+        items_string = ''
+        for item in self.items.all():
+            s = 'product: ' + item.product.name + ', quantity: ' + str(item.quantity) + '\n'
+            items_string += s
+
+        summary = SUMMARY_TEMPLATE.format(
+            order_id=self.order_id,
+            username=self.user.username,
+            user_email=self.user.email,
+            delivery_date=self.expected_delivery_date,
+            items=items_string
+        )
+        return summary
 
     def save(self, *args, **kwargs):
         # Automatically generating order_id on creation
@@ -122,6 +149,9 @@ class Order(models.Model):
         for item in self.items.all():
             item.product.remaining_stock -= item.quantity
             item.product.save()
+
+        # Generate order summary
+        self.order_summary = self.__generate_order_summary()
 
         super().save(*args, **kwargs)
 
