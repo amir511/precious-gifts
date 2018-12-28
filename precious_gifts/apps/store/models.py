@@ -76,6 +76,8 @@ class Cart(models.Model):
         order.save()
         for item in self.items.all():
             item.order_id = order
+            item.product.remaining_stock -= item.quantity
+            item.product.save()
             item.save()
         order.save()
         self.__empty_cart()
@@ -145,23 +147,20 @@ class Order(models.Model):
             max_period = max([item.product.delivery_period for item in self.items.all()])
             self.expected_delivery_date = datetime.now() + timedelta(max_period)
 
-        # Updating the products quantities
-        for item in self.items.all():
-            item.product.remaining_stock -= item.quantity
-            item.product.save()
+        # Handle the changes in status
+        self._change_status(self.status)
 
         # Generate order summary
         self.order_summary = self.__generate_order_summary()
 
         super().save(*args, **kwargs)
 
-    def change_status(self, new_status):
+    def _change_status(self, new_status):
         if new_status == 'Cancelled':
             for item in self.items.all():
                 item.product.remaining_stock += item.quantity
                 item.product.save()
                 item.delete()
-        self.status = new_status
 
     @property
     def total_price(self):

@@ -45,10 +45,14 @@ class StoreAppTest(TestCase):
         self.p1.refresh_from_db()
         self.assertEqual(self.p1.remaining_stock, 1)
         # Change Order Status
-        o1.change_status('Delivered')
+        o1.status = 'Under Shipping'
+        o1.save()
+        self.assertEqual(o1.status, 'Under Shipping')
+        o1.status = 'Delivered'
+        o1.save()
         self.assertEqual(o1.status, 'Delivered')
         # Cancel order and check product qty
-        o1.change_status('Cancelled')
+        o1.status = 'Cancelled'
         o1.save()
         self.p1.refresh_from_db()
         self.assertEqual(self.p1.remaining_stock, 2)
@@ -86,7 +90,7 @@ class StoreAppTest(TestCase):
         o1 = self.c1.create_order()
         with self.assertRaisesMessage(Exception, ERROR_MESSAGE):
             self.c2.create_order()
-        o1.change_status('Cancelled')
+        o1.status = 'Cancelled'
         o1.save()
         self.assertEqual(self.p1.remaining_stock, 2)
         self.assertIsInstance(self.c2.create_order(), Order)
@@ -110,7 +114,7 @@ class StoreAppTest(TestCase):
         self.assertEqual(self.p1.remaining_stock, 0)
         self.assertEqual(self.p2.remaining_stock, 0)
         self.assertEqual(self.p3.remaining_stock, 0)
-        o1.change_status('Cancelled')
+        o1.status = 'Cancelled'
         o1.save()
         self.p1.refresh_from_db()
         self.p2.refresh_from_db()

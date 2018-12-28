@@ -117,7 +117,7 @@ def cancel_order(request, pk):
     order = Order.objects.get(pk=pk)  # type: Order
     if order.user != request.user:
         return HttpResponseForbidden("<h1>Access Denied! </h1>")
-    order.change_status('Cancelled')
+    order.status = 'Cancelled'
     order.save()
     messages.success(request, 'Order has been cancelled!')
     return render(request, 'store/order_detail.html', {'order': order})
