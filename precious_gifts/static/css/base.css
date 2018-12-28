@@ -49,10 +49,10 @@ footer {
     box-shadow: 1.5px 1.5px 5px 0.5px rgba(168,168,168,0.57);
 }
 
-.card {
+.card , .dropdown-menu, .btn  {
     border-radius: 0em;
 }
 
-.btn {
-    border-radius: 0em;
+#navbar{
+    box-shadow: 1.5px 1.5px 5px 0.5px rgba(168,168,168,0.57);
 }
