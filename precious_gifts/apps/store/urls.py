@@ -4,7 +4,7 @@ from precious_gifts.apps.store import views
 app_name = 'store'
 
 urlpatterns = [
-    url(r'^products/$', views.product_list, name='product_list'),
+    url(r'^$', views.product_list, name='product_list'),
     url(r'^product/(?P<pk>\d+)/$', views.ProductDetail.as_view(), name='product_detail'),
     url(r'^cart/$', views.view_cart, name='view_cart'),
     url(r'^cart/add/(?P<product_pk>\d+)/(?P<quantity>\d+)/$', views.add_to_cart, name='add_to_cart'),
