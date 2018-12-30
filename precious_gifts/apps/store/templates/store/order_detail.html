@@ -48,7 +48,7 @@
                 <pre>Total amount = {{ order.total_price }} L.E.</pre>
                 <pre>Estimated delivery date = {{ order.expected_delivery_date }}</pre>
 
-                <pre><a href={% url  'store:cancel_order' pk=order.pk %} class="btn btn-primary">Cancel Order</a></pre>
+                <pre><a href={% url  'store:cancel_order' pk=order.pk %} class="btn btn-danger">Cancel Order</a></pre>
         </div>
     {% endif %}
 </div>
