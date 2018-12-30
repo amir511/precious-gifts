@@ -28,7 +28,7 @@
     </div>
     <div class="row mt-4">
         {% if not cart.items.all.count %}
-        <div class="col-12 text-center">
+        <div class="col-12 text-center" style="margin-bottom:275px;">
             <h1>Your Cart is currently empty!</h1>
             <a href="{% url 'store:product_list' %}" class="btn btn-outline-primary">Continue Shopping!</a>
         </div>
