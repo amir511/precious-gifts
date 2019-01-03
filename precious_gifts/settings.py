@@ -159,6 +159,7 @@ INSTALLED_APPS = (
 
     'precious_gifts',
     'precious_gifts.apps.store',
+    'precious_gifts.apps.accounts',
 )
 
 LANGUAGES = (
