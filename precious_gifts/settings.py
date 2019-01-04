@@ -154,7 +154,8 @@ INSTALLED_APPS = (
     'djangocms_bootstrap4.contrib.bootstrap4_picture',
     'djangocms_bootstrap4.contrib.bootstrap4_tabs',
     'djangocms_bootstrap4.contrib.bootstrap4_utilities',
-
+    
+    'djangocms_forms',
     'bootstrap4',
 
     'precious_gifts',
@@ -231,3 +232,5 @@ THUMBNAIL_PROCESSORS = (
 DJANGOCMS_ICON_SETS = [
     ('fontawesome5', 'fa', 'Font Awesome'),
 ]
+
+DJANGOCMS_FORMS_WIDGET_CSS_CLASSES = {'__all__': ('form-control', 'mb-4') }
