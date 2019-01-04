@@ -31,6 +31,18 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
                 {% show_menu 0 100 100 100 "navbar_menu.html" %}
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href={% url 'accounts:log_out' %}>Log Out</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href={% url 'accounts:log_in' %}>Log In</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href={% url 'accounts:sign_up' %}>Sign Up</a>
+                    </li>
+                {% endif %}
                 </ul>
             </div>
         </nav>           

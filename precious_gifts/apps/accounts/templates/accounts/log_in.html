@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+<div class="container">
+<div class="row mt-4">
+        <!-- Messages -->
+        <div class="col-lg-3 col-sm-12"></div>
+        {% if messages %}
+        {% for message in messages %}
+        {% if message.level == 25 %}
+        <div class="alert alert-dismissible alert-success col-lg-6 col-md-12">
+                {{ message }}
+        </div>
+        {% elif message.level == 40 %} 
+        <div class="alert alert-dismissible alert-danger col-lg-6 col-md-12">
+                {{ message }}
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+    </div>
+    <div class="row mt-5 mb-3">
+        <div class="col-lg-3"></div>
+        <form class="col-lg-6 col-sm-12 p-4 card card-shadow" method="POST">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                <input class="btn btn-success" type="submit" value="log in">
+        </form>
+</div>
+</div>
+
+{% endblock content %}
