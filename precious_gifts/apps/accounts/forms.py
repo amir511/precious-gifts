@@ -18,4 +18,4 @@ class NewBuyerForm(forms.ModelForm):
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=20)
-    password = forms.PasswordInput()
+    password = forms.CharField(max_length=255, widget=forms.PasswordInput())
