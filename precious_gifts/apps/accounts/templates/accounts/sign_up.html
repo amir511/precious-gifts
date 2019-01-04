@@ -5,7 +5,7 @@
 <div class="container">
     <div class="row mt-5 mb-3">
         <div class="col-lg-3"></div>
-        <form id="login-form" class="col-lg-6 col-sm-12 p-4 card card-shadow" method="POST">
+        <form class="col-lg-6 col-sm-12 p-4 card card-shadow" method="POST">
                 {% csrf_token %}
                 {% bootstrap_form user_form %}
                 {% bootstrap_form buyer_form %}
