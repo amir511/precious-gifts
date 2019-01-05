@@ -115,7 +115,7 @@ def order_detail(request, pk):
 @login_required
 def cancel_order(request, pk):
     order = Order.objects.get(pk=pk)  # type: Order
-    if order.user != request.user:
+    if order.user != request.user or order.status != 'Under Preparation':
         return HttpResponseForbidden("<h1>Access Denied! </h1>")
     order.status = 'Cancelled'
     order.save()
