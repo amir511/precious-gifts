@@ -45,6 +45,7 @@
     {% endfor %}
     {% if order.status != 'Cancelled' %}
         <div class="mt-3">
+                <pre>Shipping fees: {{ shipping_fees }} L.E.</pre>
                 <pre>Total amount = {{ order.total_price }} L.E.</pre>
                 <pre>Estimated delivery date = {{ order.expected_delivery_date }}</pre>
                 {% if order.status == 'Under Preparation' %}

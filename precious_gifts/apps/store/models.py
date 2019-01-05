@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from filer.fields.image import FilerImageField
 from random import randint
 from datetime import datetime, timedelta
@@ -86,11 +86,12 @@ class Cart(models.Model):
 
     @property
     def total_price(self):
+        shipping_fees = ShippingFees.objects.all()[0].amount if ShippingFees.objects.all().count() else 0
         price = 0
         for item in self.items.all():
             price += item.price
 
-        return price
+        return price + shipping_fees
 
     def __str__(self):
         return 'Cart:' + str(self.user)
@@ -168,11 +169,12 @@ class Order(models.Model):
 
     @property
     def total_price(self):
+        shipping_fees = ShippingFees.objects.all()[0].amount if ShippingFees.objects.all().count() else 0
         price = 0
         for item in self.items.all():
             price += item.price
 
-        return price
+        return price + shipping_fees
 
     def __str__(self):
         return str(self.user) + ':' + self.order_id + ':' + self.status
@@ -191,3 +193,16 @@ class CartItem(models.Model):
     def __str__(self):
         return str(self.product) + ':' + str(self.quantity)
 
+class ShippingFees(models.Model):
+    class Meta:
+        verbose_name_plural = 'Shipping Fees'
+    
+    amount = models.FloatField(blank=False, null=False)
+
+    def clean(self):
+        old_fees_exists = self.__class__.objects.all().count()
+        if old_fees_exists and not self.pk:
+            raise ValidationError('Cannot add more than one record for shipping fees!')
+
+    def __str__(self):
+        return 'Shiping Fees:' + str(self.amount)

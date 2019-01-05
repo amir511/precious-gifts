@@ -67,6 +67,7 @@
             {% endfor %}
     </div>
             <div class="row my-3">
+                    <h4 class="col-lg-8 col-md-12">Shipping fees: {{ shipping_fees }} L.E.</h4>
                     <h3 class="col-lg-8 col-md-12">Total amount = {{ cart.total_price }} L.E.</h3>
                     <a href={% url  'store:checkout' %} class="btn btn-success col-lg-4 col-md-12">Checkout</a>
             </div>

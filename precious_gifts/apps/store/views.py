@@ -5,7 +5,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import DetailView
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
-from precious_gifts.apps.store.models import Product, Cart, Order
+from precious_gifts.apps.store.models import Product, Cart, Order, ShippingFees
 from precious_gifts.apps.store.forms import ChangeQtyForm
 
 
@@ -52,7 +52,8 @@ def view_cart(request):
         else:
             messages.error(request, "Quantity couldn't be updated!")
     form = ChangeQtyForm()
-    context = {'cart': cart, 'form': form}
+    shipping_fees = ShippingFees.objects.all()[0] if ShippingFees.objects.all().count() else 0
+    context = {'cart': cart, 'shipping_fees': shipping_fees, 'form': form}
     return render(request, 'store/view_cart.html', context=context)
 
 
@@ -109,7 +110,9 @@ def order_detail(request, pk):
     order = Order.objects.get(pk=pk)
     if order.user != request.user:
         return HttpResponseForbidden("<h1>Access Denied! </h1>")
-    return render(request, 'store/order_detail.html', {'order': order})
+    shipping_fees = ShippingFees.objects.all()[0].amount if ShippingFees.objects.all().count() else 0
+    context = {'order': order, 'shipping_fees': shipping_fees}    
+    return render(request, 'store/order_detail.html', context=context)
 
 
 @login_required
