@@ -93,3 +93,7 @@ footer {
     cursor: pointer;
     border-radius: 0em;
 }
+
+.modal-content {
+    border-radius: 0em !important;
+}
