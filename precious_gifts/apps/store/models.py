@@ -118,6 +118,8 @@ class Order(models.Model):
         Order id: {order_id}
         User name: {username}
         User email: {user_email}
+        User phone: {user_phone}
+        Shipping address: {shipping_address}
         Extected delivery date: {delivery_date}
         Items:
         {items}
@@ -131,6 +133,8 @@ class Order(models.Model):
             order_id=self.order_id,
             username=self.user.username,
             user_email=self.user.email,
+            user_phone=self.user.buyer.phone_number,
+            shipping_address=self.user.buyer.shipping_address,
             delivery_date=self.expected_delivery_date,
             items=items_string
         )
