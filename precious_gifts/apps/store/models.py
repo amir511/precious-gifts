@@ -205,4 +205,4 @@ class ShippingFees(models.Model):
             raise ValidationError('Cannot add more than one record for shipping fees!')
 
     def __str__(self):
-        return 'Shiping Fees:' + str(self.amount)
+        return 'Shipping Fees:' + str(self.amount)
