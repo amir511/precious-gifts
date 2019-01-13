@@ -78,7 +78,7 @@ def view_cart(request):
         else:
             messages.error(request, "Quantity couldn't be updated!")
     form = ChangeQtyForm()
-    shipping_fees = ShippingFees.objects.all()[0] if ShippingFees.objects.all().count() else 0
+    shipping_fees = ShippingFees.objects.all()[0].amount if ShippingFees.objects.all().count() else 0
     context = {'cart': cart, 'shipping_fees': shipping_fees, 'form': form}
     return render(request, 'store/view_cart.html', context=context)
 
