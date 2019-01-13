@@ -15,7 +15,25 @@ class ProductDetail(DetailView):
 
 
 def product_list(request):
-    product_list = Product.objects.all()
+    product_list = Product.objects.order_by('name')
+
+    search = request.GET.get('search')
+    max_price = request.GET.get('max_price')
+    min_price = request.GET.get('min_price')
+    sort = request.GET.get('sort')
+
+    if search:
+        product_list = product_list.filter(name__search=search).order_by('name')
+    if max_price:
+        product_list = product_list.exclude(price__gt=max_price).order_by('name')
+    if min_price:
+        product_list = product_list.exclude(price__lt=min_price).order_by('name')
+    if sort:
+        if sort == 'a':
+            product_list = product_list.order_by('price')
+        elif sort == 'd':
+            product_list = product_list.order_by('-price')
+
     product_paginator = Paginator(product_list, 12)
     page = request.GET.get('page')
     try:
@@ -27,7 +45,15 @@ def product_list(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         products = product_paginator.page(product_paginator.num_pages)
 
-    return render(request, 'store/product_list.html', {'products': products})
+    context = {
+        'products': products,
+        'search': search,
+        'max_price': max_price,
+        'min_price': min_price,
+        'sort': sort,
+    }
+    
+    return render(request, 'store/product_list.html', context=context)
 
 
 @login_required
@@ -111,7 +137,7 @@ def order_detail(request, pk):
     if order.user != request.user:
         return HttpResponseForbidden("<h1>Access Denied! </h1>")
     shipping_fees = ShippingFees.objects.all()[0].amount if ShippingFees.objects.all().count() else 0
-    context = {'order': order, 'shipping_fees': shipping_fees}    
+    context = {'order': order, 'shipping_fees': shipping_fees}
     return render(request, 'store/order_detail.html', context=context)
 
 

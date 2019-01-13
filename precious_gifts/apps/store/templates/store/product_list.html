@@ -37,12 +37,58 @@
         </div>
         {% endfor %}
     </div>
+    <div class="row card card-shadow m-5">
+            <div class="card-header">
+            <h5 class="mb-0">
+            <button class="btn btn-link" data-toggle="collapse" data-target="#search-filter" aria-expanded="false" aria-controls="search-filter">
+                <span><i class="far fa-minus-square"></i></span> Search and filter products
+            </button>
+            </h5>
+            </div>
+            <div id="search-filter" class="collapse">
+                <div class="card-body" aria-labelledby="search-filter">
+                <small>You can combine multiple types of filters together with search.</small>
+                <form action={% url 'store:product_list'  %} method="GET">
+                    <div class="form-row">
+                        <div class="form-group col-md-12 col-lg-6">
+                            <label for="search">Search products by name:</label>
+                            <input class="form-control" type="text" name="search" placeholder="Search">
+                        </div>
+                        <div class="form-group col-md-12 col-lg-6">
+                            <label for="sort">Sort prices:</label>
+                            <select class="form-control" name="sort">
+                                <option value="">--</option>
+                                <option value="a">Ascending</option>
+                                <option value="d">Descending</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-12 col-lg-6">
+                            <label for="max_price">Filter by maximum price:</label>
+                            <input class="form-control" type="number" name="max_price" placeholder="Maximum Price">
+                        </div>
+                        <div class="form-group col-md-12 col-lg-6">
+                            <label for="min_price">Filter by minimum price:</label>
+                            <input class="form-control" type="number" name="min_price" placeholder="Minimum Price">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group ml-auto">
+                            <input type="submit" class="btn btn-primary" value="Search and filter">
+                            <a href={% url 'store:product_list' %} class="btn btn-success">Reset</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <div class="row justify-content-center mt-4">
         <nav aria-label="Product navigation">
             <ul class="pagination">
                 {% if products.has_previous %}
                 <li class="page-item">
-                    <a class="page-link" href="?page={{ products.previous_page_number }}" aria-label="Previous">
+                    <a class="page-link" href="?{% if sort%}sort={{ sort }}&{% endif %}{% if search%}search={{ search }}&{% endif %}{% if max_price %}max_price={{ max_price }}&{% endif %}{%if min_price %}min_price={{ min_price }}&{% endif %}page={{ products.previous_page_number }}" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                         <span class="sr-only">Previous</span>
                     </a>
@@ -62,12 +108,12 @@
                 {% else %}
                 <li class="page-item">
                 {% endif %}
-                <a class="page-link" href="?page={{page}}">{{page}}</a>
+                <a class="page-link" href="?{% if sort%}sort={{ sort }}&{% endif %}{% if search%}search={{ search }}&{% endif %}{% if max_price %}max_price={{ max_price }}&{% endif %}{%if min_price %}min_price={{ min_price }}&{% endif %}page={{page}}">{{page}}</a>
                 </li>
                 {% endfor %}
                 {% if products.has_next %}
                 <li class="page-item">
-                    <a class="page-link" href="?page={{ products.next_page_number }}" aria-label="Next">
+                    <a class="page-link" href="?{% if sort%}sort={{ sort }}&{% endif %}{% if search%}search={{ search }}&{% endif %}{% if max_price %}max_price={{ max_price }}&{% endif %}{%if min_price %}min_price={{ min_price }}&{% endif %}page={{ products.next_page_number }}" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                         <span class="sr-only">Next</span>
                     </a>
@@ -80,8 +126,6 @@
                     </a>
                 </li>
                 {% endif %}
-
-                
             </ul>
         </nav>
     </div>
