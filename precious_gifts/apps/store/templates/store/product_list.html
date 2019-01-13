@@ -27,7 +27,7 @@
                     <img class="card-img-top card-product-image" {% if product.image %} src="{{ product.image.url }}" {% else %} src="{% static 'img/NA.png' %}" {% endif %} alt="Product Image">
                         <div class="card-body">
                                 <h5 class="card-title">{{ product.name }}</h5>
-                                <p class="card-text">{{ product.description |truncatewords:12}}</p>
+                                <p class="card-text">{{ product.description |truncatechars:100}}</p>
                         </div>
                         <div class="card-footer">
                             <h5 class="card-text">{{ product.price }} EGP</h5>
@@ -37,7 +37,7 @@
         </div>
         {% endfor %}
     </div>
-    <div class="row card card-shadow m-5">
+    <div class="row card card-shadow m-2">
             <div class="card-header">
             <h5 class="mb-0">
             <button class="btn btn-link" data-toggle="collapse" data-target="#search-filter" aria-expanded="false" aria-controls="search-filter">
