@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block content %}
-<div class="container">
+<div class="container" style="margin-bottom:230px;">
         <!-- displaying messages if there is any: -->
         {% if messages %}
         <div class="row mt-4">
@@ -22,7 +22,7 @@
         </div>
     {% endif %}
     <!-- end of messages snippet -->
-    <div class="card card-shadow p-5 my-3">
+    <div class="card card-shadow p-5 my-5">
 
         <pre>Order Number: {{ order.order_id }}</pre>
         <hr>
