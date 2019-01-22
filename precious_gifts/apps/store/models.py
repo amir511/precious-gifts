@@ -121,7 +121,7 @@ class Order(models.Model):
         User email: {user_email}
         User phone: {user_phone}
         Shipping address: {shipping_address}
-        Extected delivery date: {delivery_date}
+        Expected delivery date: {delivery_date}
         Items:
         {items}
         """
