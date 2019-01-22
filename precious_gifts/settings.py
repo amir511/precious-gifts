@@ -162,6 +162,7 @@ INSTALLED_APPS = (
     'precious_gifts',
     'precious_gifts.apps.store',
     'precious_gifts.apps.accounts',
+    'precious_gifts.apps.mail',
 )
 
 LANGUAGES = (
@@ -242,3 +243,9 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'preciousgifts.team@gmail.com'
 EMAIL_HOST_PASSWORD = 'Precious_gifts_00'
 EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'no-reply@preciousgifts.com'
+SERVER_EMAIL = 'no-reply@preciousgifts.com'
+EMAIL_SUBJECT_PREFIX = '[Precious Gifts]'
+ADMINS = [
+    ('Amir', 'amir.anwar.said@gmail.com')
+]
