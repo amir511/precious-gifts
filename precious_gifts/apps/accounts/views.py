@@ -4,7 +4,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from precious_gifts.apps.accounts.models import Buyer
 from precious_gifts.apps.accounts.forms import NewBuyerForm, NewUserForm, LoginForm
-
+from precious_gifts.apps.mail.utils import send_fast_mail
+from uuid import uuid4
 
 def sign_up(request):
     if request.method == 'POST':
@@ -15,11 +16,18 @@ def sign_up(request):
                 user = user_form.save(commit=False)
                 password = user_form.cleaned_data['password']
                 user.set_password(password)
+                user.is_active = False
                 user.save()
                 buyer = buyer_form.save(commit=False)
                 buyer.user = user
+                buyer.activation_key = str(uuid4())
                 buyer.save()
-                messages.success(request, 'Welcome to Precious Gifts, log in to continue.')
+                email_context = {
+                    'user_name': user.username,
+                    'activation_link': request.get_host() + '/accounts/activate-user/' + buyer.activation_key + '/',
+                }
+                send_fast_mail(user.email, 'new_user_signup', email_context)
+                messages.success(request, 'An email has been sent to you to complete the registration process.')
                 return redirect('accounts:log_in')
             except Exception as e:
                 messages.success(request, 'The following error has occured: {}'.format(str(e)))
@@ -32,6 +40,16 @@ def sign_up(request):
     context = {'user_form': user_form, 'buyer_form': buyer_form}
     return render(request, 'accounts/sign_up.html', context=context)
 
+def activate_user(request, key):
+    try:
+        buyer = Buyer.objects.get(activation_key=key)
+        buyer.user.is_active = True
+        buyer.user.save()
+        messages.success(request, 'Your account is now active!, log in to continue.')
+    except Buyer.DoesNotExist:
+        messages.error(request, 'Invalid activation link!')
+    
+    return redirect('accounts:log_in')
 
 def log_in(request):
     if request.method == "POST":
