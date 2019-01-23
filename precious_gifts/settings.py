@@ -249,3 +249,5 @@ EMAIL_SUBJECT_PREFIX = '[Precious Gifts]'
 ADMINS = [
     ('Amir', 'amir.anwar.said@gmail.com')
 ]
+# change this setting to prevent/allow content editors from editing email templates
+DISABLE_EMAIL_TEMPLATES_EDIT = False

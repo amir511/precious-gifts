@@ -1,14 +1,15 @@
 from django.contrib import admin
+from django.conf import settings
 from precious_gifts.apps.mail.models import MailTemplate
 
 @admin.register(MailTemplate)
 class MailTemplateAdmin(admin.ModelAdmin):
-    # Comment out this list if you need to edit email templates
-    readonly_fields = [
-        'template_name',
-        'mail_subject',
-        'mail_body',
-    ]
+    if settings.DISABLE_EMAIL_TEMPLATES_EDIT:
+        readonly_fields = [
+            'template_name',
+            'mail_subject',
+            'mail_body',
+        ]
     
     # Comment out those two methods, if you need to delete email templates
     def has_delete_permission(self, request, obj=None):
