@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from precious_gifts.apps.store.models import Product, Cart, Order, ShippingFees
 from precious_gifts.apps.store.forms import ChangeQtyForm
+from precious_gifts.apps.mail.utils import send_fast_mail
 
 
 class ProductDetail(DetailView):
@@ -45,14 +46,8 @@ def product_list(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         products = product_paginator.page(product_paginator.num_pages)
 
-    context = {
-        'products': products,
-        'search': search,
-        'max_price': max_price,
-        'min_price': min_price,
-        'sort': sort,
-    }
-    
+    context = {'products': products, 'search': search, 'max_price': max_price, 'min_price': min_price, 'sort': sort}
+
     return render(request, 'store/product_list.html', context=context)
 
 
@@ -118,9 +113,23 @@ def checkout(request):
     cart = request.user.cart
     try:
         order = cart.create_order()
+
+        # Send email to Admins
+        admin_context = {'order_summary': order.order_summary}
+        send_fast_mail('admins', 'new_order_admin', admin_context)
+
+        # Send email to User
+        user_context = {
+            'user_name': request.user.username,
+            'order_number': order.order_id,
+            'order_summary': order.order_summary,
+        }
+        send_fast_mail(request.user.email, 'new_order_user', user_context)
+
     except Exception as e:
         messages.error(request, e)
         return redirect('store:view_cart')
+
     return redirect('store:order_detail', pk=order.pk)
 
 
