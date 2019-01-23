@@ -157,6 +157,14 @@ def cancel_order(request, pk):
         return HttpResponseForbidden("<h1>Access Denied! </h1>")
     order.status = 'Cancelled'
     order.save()
+
+    # Emailing User and Admins about the cancellation
+    admin_context = {'order_number': order.order_id}
+    send_fast_mail('admins', 'cancel_order_admin', admin_context)
+
+    user_context = {'user_name': request.user.username, 'order_number': order.order_id}
+    send_fast_mail(request.user.email, 'cancel_order_user', user_context)
+
     messages.success(request, 'Order has been cancelled!')
     return render(request, 'store/order_detail.html', {'order': order})
 
