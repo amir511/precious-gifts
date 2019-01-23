@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from djangocms_text_ckeditor.fields import HTMLField
 from filer.fields.image import FilerImageField
 from random import randint
 from datetime import datetime, timedelta
@@ -107,27 +108,28 @@ class Order(models.Model):
 
     order_id = models.CharField(max_length=255, unique=True, editable=False, null=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='orders', editable=False, null=True)
-    order_summary = models.TextField()
+    order_summary = HTMLField()
     status = models.CharField(max_length=50, choices=ORDER_STATUS_CHOICES, default='Under Preparation')
     expected_delivery_date = models.DateField(editable=False, null=True)
 
 
     def __generate_order_summary(self):
         SUMMARY_TEMPLATE = """
-        Order summary:
-        ==============
-        Order id: {order_id}
-        User name: {username}
-        User email: {user_email}
-        User phone: {user_phone}
-        Shipping address: {shipping_address}
-        Expected delivery date: {delivery_date}
-        Items:
+        <b>Order summary:</b>
+        <hr>
+        <p>Order id: {order_id}</p>
+        <p>User name: {username}</p>
+        <p>User email: {user_email}</p>
+        <p>User phone: {user_phone}</p>
+        <p>Shipping address: {shipping_address}</p>
+        <p>Expected delivery date: {delivery_date}</p>
+        <p>Total price: {total_price} L.E.</p>
+        <u>Items:</u>
         {items}
         """
         items_string = ''
         for item in self.items.all():
-            s = 'product: ' + item.product.name + ', quantity: ' + str(item.quantity) + '\n'
+            s = '<p>product: ' + item.product.name + ', quantity: ' + str(item.quantity) + '</p>'
             items_string += s
 
         summary = SUMMARY_TEMPLATE.format(
@@ -137,6 +139,7 @@ class Order(models.Model):
             user_phone=self.user.buyer.phone_number,
             shipping_address=self.user.buyer.shipping_address,
             delivery_date=self.expected_delivery_date,
+            total_price = self.total_price,
             items=items_string
         )
         return summary
