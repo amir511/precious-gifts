@@ -251,3 +251,6 @@ ADMINS = [
 ]
 # change this setting to prevent/allow content editors from editing email templates
 DISABLE_EMAIL_TEMPLATES_EDIT = False
+
+# name to display in website navbar, and in default email templates
+WEBSITE_NAME = 'Precious Gifts'

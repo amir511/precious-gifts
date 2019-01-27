@@ -12,6 +12,9 @@ def send_fast_mail(email_to, template_name, context):
     except MailTemplate.DoesNotExist:
         logger.error("Couldn't find the requested email template, mail not sent!")
         return False
+    
+    if 'website_name' in template.mail_body:
+        context['website_name'] = settings.WEBSITE_NAME
 
     html_body = template.mail_body.format(**context)
     text_body = html2text(html_body)
