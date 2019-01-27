@@ -97,3 +97,7 @@ footer {
 .modal-content {
     border-radius: 0em !important;
 }
+
+.text-shadow {
+    text-shadow: 2px 2px 2px grey;
+}
