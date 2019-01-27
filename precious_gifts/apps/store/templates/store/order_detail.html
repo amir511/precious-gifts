@@ -49,7 +49,7 @@
                 <pre>Total amount = {{ order.total_price }} L.E.</pre>
                 <pre>Estimated delivery date = {{ order.expected_delivery_date }}</pre>
                 {% if order.status == 'Under Preparation' %}
-                <pre class="row">
+                <pre class="row m-2">
                 <button type="button" class="btn btn-danger ml-auto" data-toggle="modal" data-target="#cancelModal">
                     Cancel Order
                 </button>
