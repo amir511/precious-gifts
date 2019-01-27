@@ -8,6 +8,9 @@ from precious_gifts.apps.mail.utils import send_fast_mail
 from uuid import uuid4
 
 def sign_up(request):
+    # Clearing old messages first to avoid duplicate message display
+    old_messages = messages.get_messages(request)
+    old_messages.used = True
     if request.method == 'POST':
         user_form = NewUserForm(request.POST)
         buyer_form = NewBuyerForm(request.POST)
@@ -30,7 +33,7 @@ def sign_up(request):
                 messages.success(request, 'An email has been sent to you to complete the registration process.')
                 return redirect('accounts:log_in')
             except Exception as e:
-                messages.success(request, 'The following error has occured: {}'.format(str(e)))
+                messages.error(request, 'The following error has occured: {}'.format(str(e)))
         else:
             [messages.error(request, error[0]) for error in user_form.errors.values()]
             [messages.error(request, error[0]) for error in buyer_form.errors.values()]
