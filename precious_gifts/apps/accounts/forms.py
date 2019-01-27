@@ -4,11 +4,17 @@ from precious_gifts.apps.accounts.models import Buyer
 
 
 class NewUserForm(forms.ModelForm):
+    confirm_password = forms.CharField(max_length=255, widget=forms.PasswordInput())
+
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'email', 'password')
         widgets = {'password': forms.PasswordInput()}
-
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        if not cleaned_data.get('confirm_password') == cleaned_data.get('password'):
+            raise forms.ValidationError("Passwords Doesn't match!")
 
 class NewBuyerForm(forms.ModelForm):
     class Meta:
