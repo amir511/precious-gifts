@@ -15,7 +15,10 @@ class NewUserForm(forms.ModelForm):
         cleaned_data = super().clean()
         if not cleaned_data.get('confirm_password') == cleaned_data.get('password'):
             raise forms.ValidationError("Passwords Doesn't match!")
-
+        email_exists = User.objects.filter(email=cleaned_data.get('email'))
+        if email_exists:
+            raise forms.ValidationError('This email address already exists!')
+            
 class NewBuyerForm(forms.ModelForm):
     class Meta:
         model = Buyer
