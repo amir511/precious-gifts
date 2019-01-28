@@ -254,3 +254,11 @@ DISABLE_EMAIL_TEMPLATES_EDIT = False
 
 # name to display in website navbar, and in default email templates
 WEBSITE_NAME = 'Precious Gifts'
+
+# Bootstrap themes (based on bootswatch.com)
+# Available choices are:
+# plain, cerulean, cosmo, cyborg, darkly, flatly, 
+# journal, litera, lumen, lux, materia, minty, pulse,
+# sandstone, simplex, sketchy, slate, solar, spacelab,
+# superhero, united, and yeti
+BOOTSTRAP_THEME = 'plain'

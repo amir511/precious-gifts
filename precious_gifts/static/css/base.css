@@ -8,7 +8,7 @@
 
 body{
     position: relative;
-    font-family: 'Playfair Display', serif;
+    font-family: 'Ubuntu', sans-serif;
     padding-bottom: 10%;
 }
 .nav {
@@ -43,8 +43,6 @@ footer {
     margin-bottom: 0px;
     background-color:#4e5458;
     color: lightgray;
-    box-shadow: -1.5px -1.5px 5px 0.5px rgba(168,168,168,0.57);
-    opacity: 0.8;
     z-index: 10;
 }
 

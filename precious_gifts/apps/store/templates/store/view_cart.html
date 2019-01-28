@@ -30,7 +30,7 @@
         {% if not cart.items.all.count %}
         <div class="col-12 text-center" style="margin-bottom:275px;">
             <h1>Your Cart is currently empty!</h1>
-            <a href="{% url 'store:product_list' %}" class="btn btn-outline-primary">Continue Shopping!</a>
+            <a href="{% url 'store:product_list' %}" class="btn btn-primary">Continue Shopping!</a>
         </div>
         {% else %}
             {% for item in cart.items.all %}
@@ -53,15 +53,15 @@
                                         <input type="hidden" name="item_pk" value={{ item.pk }}>
                                     {% endif %}
                                     {% endfor %}
-                                    <input class="btn btn-outline-warning" type="submit" value="Change">
+                                    <input class="btn btn-warning" type="submit" value="Change">
                                 </form>
                                 </div>
                             </div>
 
                         </div>
                         <div class="ml-auto m-3">
-                                <a href={% url  'store:product_detail' pk=item.product.pk %} class="btn btn-outline-primary">Product details</a>
-                                <a href={% url  'store:remove_from_cart' product_pk=item.product.pk %} class="btn btn-outline-danger">Remove from cart</a>
+                                <a href={% url  'store:product_detail' pk=item.product.pk %} class="btn btn-primary">Product details</a>
+                                <a href={% url  'store:remove_from_cart' product_pk=item.product.pk %} class="btn btn-danger">Remove from cart</a>
                             </div>
                     </div>
             {% endfor %}
