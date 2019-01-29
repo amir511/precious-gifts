@@ -206,6 +206,10 @@ class ShippingFees(models.Model):
         old_fees_exists = self.__class__.objects.all().count()
         if old_fees_exists and not self.pk:
             raise ValidationError('Cannot add more than one record for shipping fees!')
-
+    
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
+        
     def __str__(self):
         return 'Shipping Fees:' + str(self.amount)
