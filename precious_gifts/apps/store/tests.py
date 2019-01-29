@@ -1,9 +1,10 @@
 from django.test import TestCase
-from .models import Product, Cart, CartItem, Order
+from .models import Product, Cart, CartItem, Order, ShippingFees
+from precious_gifts.apps.accounts.models import Buyer
 from django.contrib.auth.models import User
 from datetime import datetime
 from math import ceil
-
+from uuid import uuid4
 
 class StoreAppTest(TestCase):
     def setUp(self):
@@ -11,6 +12,10 @@ class StoreAppTest(TestCase):
         self.u2 = User(username='u2', password='u2_password')
         self.u1.save()
         self.u2.save()
+        self.b1 = Buyer(user=self.u1, phone_number='0123456', shipping_address='123 st.', activation_key=str(uuid4()))
+        self.b2 = Buyer(user=self.u2, phone_number='654321', shipping_address='321 st.', activation_key=str(uuid4()))
+        self.b1.save()
+        self.b2.save()
         self.p1 = Product(name='p1', price=1, remaining_stock=2, delivery_period=3)
         self.p2 = Product(name='p2', price=1, remaining_stock=3, delivery_period=5)
         self.p3 = Product(name='p3', price=1, remaining_stock=1, delivery_period=2)
@@ -21,6 +26,14 @@ class StoreAppTest(TestCase):
         self.c2 = Cart(user=self.u2)
         self.c1.save()
         self.c2.save()
+        self.fees = ShippingFees(amount=36.5)
+        self.fees.save()
+
+    def test_cannot_add_more_than_one_shipping_fees_record(self):
+        ERROR_MESSAGE = 'Cannot add more than one record for shipping fees!'
+        self.other_fees = ShippingFees(amount=22)
+        with self.assertRaisesMessage(Exception, ERROR_MESSAGE):
+            self.other_fees.save()
 
     def test_normal_order(self):
         # Adding an item
@@ -31,9 +44,13 @@ class StoreAppTest(TestCase):
         # Remove item and assert cart is empty
         self.c1.remove_item(self.p1)
         self.assertEqual(self.c1.items.all().count(), 0)
-        # create order
+        # check total price
         self.c1.add_item(self.p1, 1)
+        self.assertEqual(self.c1.total_price, self.p1.price + self.fees.amount)
+        # create order
         o1 = self.c1.create_order()
+        # check order price
+        self.assertEqual(o1.total_price, self.p1.price + self.fees.amount)
         # check delivery period is correct
         order_delivery_preiod = ceil(((((o1.expected_delivery_date - datetime.now()).total_seconds()) / 60) / 60) / 24)
         self.assertEqual(order_delivery_preiod, self.p1.delivery_period)
@@ -104,10 +121,14 @@ class StoreAppTest(TestCase):
             self.c1.add_item(self.p2, 4)
         self.c1.add_item(self.p2, 3)
         self.c1.add_item(self.p3, 1)
+        total_price = sum([item.product.price*item.quantity for item in self.c1.items.all()]) + self.fees.amount
+        self.assertEqual(self.c1.total_price, total_price)
         o1 = self.c1.create_order()
         self.assertIsInstance(o1, Order)
         self.assertEqual(self.c1.items.all().count(), 0)
         self.assertEqual(o1.items.all().count(), 3)
+        total_price = sum([item.product.price*item.quantity for item in o1.items.all()]) + self.fees.amount
+        self.assertEqual(o1.total_price, total_price)
         self.p1.refresh_from_db()
         self.p2.refresh_from_db()
         self.p3.refresh_from_db()
