@@ -25,9 +25,11 @@ def sign_up(request):
                 buyer.user = user
                 buyer.activation_key = str(uuid4())
                 buyer.save()
+                activation_link = request.get_host() + '/accounts/activate-user/' + buyer.activation_key + '/'
+                activation_link = 'http://' + activation_link if not activation_link.startswith('http') else activation_link
                 email_context = {
                     'user_name': user.username,
-                    'activation_link': request.get_host() + '/accounts/activate-user/' + buyer.activation_key + '/',
+                    'activation_link': activation_link,
                 }
                 send_fast_mail(user.email, 'new_user_signup', email_context)
                 messages.success(request, 'An email has been sent to you to complete the registration process.')
