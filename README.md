@@ -3,6 +3,14 @@ Precious gifts is a preconfigured CMS that comes with a built in e-commerce basi
 
 Precious gifts is a free open source web application based on Django and Django CMS.
 
+A sample deployment for the application can be found on https://precious-gifts.herokuapp.com/
+
+**Login:**
+
+username: `admin`
+
+password: `changeme`
+
 ## Features:
 * Works out of the box, minimal or no coding is required.
 * CMS preconfigured with bootstrap and font awesome.
