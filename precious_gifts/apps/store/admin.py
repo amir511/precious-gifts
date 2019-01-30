@@ -8,3 +8,5 @@ class OrderAdmin(admin.ModelAdmin):
     readonly_fields = (
         'order_summary',
     )
+    def has_add_permission(self, request):
+        return False
