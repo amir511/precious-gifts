@@ -116,7 +116,7 @@ python manage.py runserver
 * Enjoy !
 
 ## Contact me:
-You are welcomed to add feature requests or bug reports here on Github.
+You are welcome to add feature requests or bug reports here on Github.
 
 If you want to cantact me directly please use : **amir.anwar.said@gmail.com**
 
