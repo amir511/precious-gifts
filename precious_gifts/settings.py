@@ -1,4 +1,5 @@
 import os  # isort:skip
+import dj_database_url
 gettext = lambda s: s
 DATA_DIR = os.path.dirname(os.path.dirname(__file__))
 """
@@ -28,7 +29,7 @@ SECRET_KEY = 'ba0&c+a-e)4sx92g6pzzo#&4tq(tu(%#h6geq*ejrwwh_hu=cc'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
 
 
 # Application definition
@@ -219,6 +220,9 @@ DATABASES = {
         'PORT': 5432,
     }
 }
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
+
 
 MIGRATION_MODULES = {
     
@@ -250,7 +254,7 @@ ADMINS = [
     ('Amir', 'amir.anwar.said@gmail.com')
 ]
 # change this setting to prevent/allow content editors from editing email templates
-DISABLE_EMAIL_TEMPLATES_EDIT = False
+DISABLE_EMAIL_TEMPLATES_EDIT = True
 
 # name to display in website navbar, and in default email templates
 WEBSITE_NAME = 'Precious Gifts'
