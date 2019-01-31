@@ -104,6 +104,8 @@ python manage.py runserver
 * The following CSS classes are available for you to add to your components to customize its appearance directly from the django cms panel:
     * `card-shadow`: adds shadow to cards.
     * `text-shadow`: adds shadow to text.
+    * `card-product-image`: adjusts image size to suit a card.
+    * `detail-product-image`: reasonable resizing for almost any type of image. 
     
     Feel free to add more custom classes if you wish in `precious_gifts/static/css/base.css`
 * Head to **Sites** in the Administration panel, change the site name to your domain name.
